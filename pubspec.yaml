@@ -4,7 +4,7 @@ version: 1.0.3
 homepage: https://github.com/mchome/flutter_colorpicker
 
 environment:
-  sdk: ^3.4.0
+  sdk: ^3.2.0
   flutter: '>=3.16.0'
 
 dependencies:
