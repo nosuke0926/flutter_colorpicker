@@ -1,6 +1,7 @@
 /// The components of HSV Color Picker
 ///
 /// Try to create a Color Picker with other layout on your own :)
+library;
 
 import 'dart:math';
 import 'package:flutter/gestures.dart';
@@ -83,6 +84,7 @@ class HSVWithHueColorPainter extends CustomPainter {
                 ? Colors.white
                 : Colors.black)
         ..strokeWidth = 1.5
+        ..blendMode = BlendMode.luminosity
         ..style = PaintingStyle.stroke,
     );
   }
@@ -856,7 +858,7 @@ class CheckerPainter extends CustomPainter {
 class ColorPickerLabel extends StatefulWidget {
   const ColorPickerLabel(
     this.hsvColor, {
-    Key? key,
+    super.key,
     this.enableAlpha = true,
     this.colorLabelTypes = const [
       ColorLabelType.rgb,
@@ -864,8 +866,7 @@ class ColorPickerLabel extends StatefulWidget {
       ColorLabelType.hsl
     ],
     this.textStyle,
-  })  : assert(colorLabelTypes.length > 0),
-        super(key: key);
+  }) : assert(colorLabelTypes.length > 0);
 
   final HSVColor hsvColor;
   final bool enableAlpha;
@@ -873,10 +874,10 @@ class ColorPickerLabel extends StatefulWidget {
   final List<ColorLabelType> colorLabelTypes;
 
   @override
-  _ColorPickerLabelState createState() => _ColorPickerLabelState();
+  ColorPickerLabelState createState() => ColorPickerLabelState();
 }
 
-class _ColorPickerLabelState extends State<ColorPickerLabel> {
+class ColorPickerLabelState extends State<ColorPickerLabel> {
   final Map<ColorLabelType, List<String>> _colorTypes = const {
     ColorLabelType.hex: ['R', 'G', 'B', 'A'],
     ColorLabelType.rgb: ['R', 'G', 'B', 'A'],
@@ -948,7 +949,7 @@ class _ColorPickerLabelState extends State<ColorPickerLabel> {
                     Text(
                       item,
                       style: widget.textStyle ??
-                          Theme.of(context).textTheme.bodyText1,
+                          Theme.of(context).textTheme.bodyLarge,
                     ),
                     const SizedBox(height: 10.0),
                     Expanded(
@@ -957,7 +958,7 @@ class _ColorPickerLabelState extends State<ColorPickerLabel> {
                             _colorTypes[_colorType]!.indexOf(item)],
                         overflow: TextOverflow.ellipsis,
                         style: widget.textStyle ??
-                            Theme.of(context).textTheme.bodyText2,
+                            Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
                   ],
@@ -995,11 +996,11 @@ class ColorPickerInput extends StatefulWidget {
   const ColorPickerInput(
     this.color,
     this.onColorChanged, {
-    Key? key,
+    super.key,
     this.enableAlpha = true,
     this.embeddedText = false,
     this.disable = false,
-  }) : super(key: key);
+  });
 
   final Color color;
   final ValueChanged<Color> onColorChanged;
@@ -1008,10 +1009,10 @@ class ColorPickerInput extends StatefulWidget {
   final bool disable;
 
   @override
-  _ColorPickerInputState createState() => _ColorPickerInputState();
+  ColorPickerInputState createState() => ColorPickerInputState();
 }
 
-class _ColorPickerInputState extends State<ColorPickerInput> {
+class ColorPickerInputState extends State<ColorPickerInput> {
   TextEditingController textEditingController = TextEditingController();
   int inputColor = 0;
 
@@ -1024,16 +1025,8 @@ class _ColorPickerInputState extends State<ColorPickerInput> {
   @override
   Widget build(BuildContext context) {
     if (inputColor != widget.color.value) {
-      textEditingController.text = '#' +
-          widget.color.red.toRadixString(16).toUpperCase().padLeft(2, '0') +
-          widget.color.green.toRadixString(16).toUpperCase().padLeft(2, '0') +
-          widget.color.blue.toRadixString(16).toUpperCase().padLeft(2, '0') +
-          (widget.enableAlpha
-              ? widget.color.alpha
-                  .toRadixString(16)
-                  .toUpperCase()
-                  .padLeft(2, '0')
-              : '');
+      textEditingController.text =
+          '#${widget.color.red.toRadixString(16).toUpperCase().padLeft(2, '0')}${widget.color.green.toRadixString(16).toUpperCase().padLeft(2, '0')}${widget.color.blue.toRadixString(16).toUpperCase().padLeft(2, '0')}${widget.enableAlpha ? widget.color.alpha.toRadixString(16).toUpperCase().padLeft(2, '0') : ''}';
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -1080,8 +1073,8 @@ class ColorPickerInputModal extends StatefulWidget {
     this.modalTitle,
     this.color,
     this.onColorChanged, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String? modalTitle;
   final Color color;
@@ -1104,10 +1097,8 @@ class _ColorPickerInputModalState extends State<ColorPickerInputModal> {
   @override
   Widget build(BuildContext context) {
     if (inputColor != widget.color.value) {
-      textEditingController.text = '#' +
-          widget.color.red.toRadixString(16).toUpperCase().padLeft(2, '0') +
-          widget.color.green.toRadixString(16).toUpperCase().padLeft(2, '0') +
-          widget.color.blue.toRadixString(16).toUpperCase().padLeft(2, '0');
+      textEditingController.text =
+          '#${widget.color.red.toRadixString(16).toUpperCase().padLeft(2, '0')}${widget.color.green.toRadixString(16).toUpperCase().padLeft(2, '0')}${widget.color.blue.toRadixString(16).toUpperCase().padLeft(2, '0')}';
 
       textEditingController.selection = TextSelection.fromPosition(
         TextPosition(offset: textEditingController.text.length),
@@ -1121,7 +1112,7 @@ class _ColorPickerInputModalState extends State<ColorPickerInputModal> {
         ).viewInsets.bottom,
       ),
       child: SizedBox(
-        width: (Theme.of(context).textTheme.bodyText2?.fontSize ?? 14) * 10,
+        width: (Theme.of(context).textTheme.bodyMedium?.fontSize ?? 14) * 10,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -1193,10 +1184,10 @@ class ColorPickerSlider extends StatelessWidget {
     this.trackType,
     this.hsvColor,
     this.onColorChanged, {
-    Key? key,
+    super.key,
     this.displayThumbColor = false,
     this.fullThumbColor = false,
-  }) : super(key: key);
+  });
 
   final TrackType trackType;
   final HSVColor hsvColor;
@@ -1349,10 +1340,10 @@ class ColorPickerSlider extends StatelessWidget {
 class ColorIndicator extends StatelessWidget {
   const ColorIndicator(
     this.hsvColor, {
-    Key? key,
+    super.key,
     this.width = 90.0,
     this.height = 70.0,
-  }) : super(key: key);
+  });
 
   final HSVColor hsvColor;
   final double width;
@@ -1382,8 +1373,8 @@ class ColorPickerArea extends StatelessWidget {
     this.hsvColor,
     this.onColorChanged,
     this.paletteType, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final HSVColor hsvColor;
   final ValueChanged<HSVColor> onColorChanged;
@@ -1550,10 +1541,10 @@ class ColorPickerHueRing extends StatelessWidget {
   const ColorPickerHueRing(
     this.hsvColor,
     this.onColorChanged, {
-    Key? key,
+    super.key,
     this.displayThumbColor = true,
     this.strokeWidth = 5.0,
-  }) : super(key: key);
+  });
 
   final HSVColor hsvColor;
   final ValueChanged<HSVColor> onColorChanged;

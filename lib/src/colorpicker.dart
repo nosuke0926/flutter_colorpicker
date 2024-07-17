@@ -11,7 +11,7 @@ import 'utils.dart';
 /// The default layout of Color Picker.
 class ColorPicker extends StatefulWidget {
   const ColorPicker({
-    Key? key,
+    super.key,
     required this.pickerColor,
     required this.onColorChanged,
     this.pickerHsvColor,
@@ -19,14 +19,15 @@ class ColorPicker extends StatefulWidget {
     this.paletteType = PaletteType.hsvWithHue,
     this.enableAlpha = true,
     @Deprecated('Use empty list in [labelTypes] to disable label.')
-        this.showLabel = true,
+    this.showLabel = true,
     this.labelTypes = const [
       ColorLabelType.rgb,
       ColorLabelType.hsv,
       ColorLabelType.hsl
     ],
-    @Deprecated('Use Theme.of(context).textTheme.bodyText1 & 2 to alter text style.')
-        this.labelTextStyle,
+    @Deprecated(
+        'Use Theme.of(context).textTheme.bodyText1 & 2 to alter text style.')
+    this.labelTextStyle,
     this.displayThumbColor = false,
     this.portraitOnly = false,
     this.colorPickerWidth = 300.0,
@@ -38,7 +39,7 @@ class ColorPicker extends StatefulWidget {
     this.onHistoryChanged,
     this.modalTitle, // Add
     this.disableInputHexColor, // Add
-  }) : super(key: key);
+  });
 
   final Color pickerColor;
   final ValueChanged<Color> onColorChanged;
@@ -167,10 +168,10 @@ class ColorPicker extends StatefulWidget {
   final ValueChanged<List<Color>>? onHistoryChanged;
 
   @override
-  _ColorPickerState createState() => _ColorPickerState();
+  ColorPickerState createState() => ColorPickerState();
 }
 
-class _ColorPickerState extends State<ColorPicker> {
+class ColorPickerState extends State<ColorPicker> {
   HSVColor currentHsvColor = const HSVColor.fromAHSV(0.0, 0.0, 0.0, 0.0);
   List<Color> colorHistory = [];
 
@@ -533,28 +534,30 @@ class _ColorPickerState extends State<ColorPicker> {
 /// The Color Picker with sliders only. Support HSV, HSL and RGB color model.
 class SlidePicker extends StatefulWidget {
   const SlidePicker({
-    Key? key,
+    super.key,
     required this.pickerColor,
     required this.onColorChanged,
     this.colorModel = ColorModel.rgb,
     this.enableAlpha = true,
     this.sliderSize = const Size(260, 40),
     this.showSliderText = true,
-    @Deprecated('Use Theme.of(context).textTheme.bodyText1 & 2 to alter text style.')
-        this.sliderTextStyle,
+    @Deprecated(
+        'Use Theme.of(context).textTheme.bodyText1 & 2 to alter text style.')
+    this.sliderTextStyle,
     this.showParams = true,
     @Deprecated('Use empty list in [labelTypes] to disable label.')
-        this.showLabel = true,
+    this.showLabel = true,
     this.labelTypes = const [],
-    @Deprecated('Use Theme.of(context).textTheme.bodyText1 & 2 to alter text style.')
-        this.labelTextStyle,
+    @Deprecated(
+        'Use Theme.of(context).textTheme.bodyText1 & 2 to alter text style.')
+    this.labelTextStyle,
     this.showIndicator = true,
     this.indicatorSize = const Size(280, 50),
     this.indicatorAlignmentBegin = const Alignment(-1.0, -3.0),
     this.indicatorAlignmentEnd = const Alignment(1.0, 3.0),
     this.displayThumbColor = true,
     this.indicatorBorderRadius = const BorderRadius.all(Radius.zero),
-  }) : super(key: key);
+  });
 
   final Color pickerColor;
   final ValueChanged<Color> onColorChanged;
@@ -707,7 +710,7 @@ class _SlidePickerState extends State<SlidePicker> {
                   child: Text(
                     trackType.toString().split('.').last[0].toUpperCase(),
                     style: widget.sliderTextStyle ??
-                        Theme.of(context).textTheme.bodyText1,
+                        Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
               Expanded(child: colorPickerSlider(trackType)),
@@ -717,7 +720,7 @@ class _SlidePickerState extends State<SlidePicker> {
                   child: Text(
                     getColorParams(trackTypes.indexOf(trackType)),
                     style: widget.sliderTextStyle ??
-                        Theme.of(context).textTheme.bodyText2,
+                        Theme.of(context).textTheme.bodyMedium,
                     textAlign: TextAlign.right,
                   ),
                 ),
@@ -752,7 +755,7 @@ class _SlidePickerState extends State<SlidePicker> {
 /// The Color Picker with HUE Ring & HSV model.
 class HueRingPicker extends StatefulWidget {
   const HueRingPicker({
-    Key? key,
+    super.key,
     required this.pickerColor,
     required this.onColorChanged,
     this.portraitOnly = false,
@@ -761,7 +764,7 @@ class HueRingPicker extends StatefulWidget {
     this.enableAlpha = false,
     this.displayThumbColor = true,
     this.pickerAreaBorderRadius = const BorderRadius.all(Radius.zero),
-  }) : super(key: key);
+  });
 
   final Color pickerColor;
   final ValueChanged<Color> onColorChanged;
@@ -773,10 +776,10 @@ class HueRingPicker extends StatefulWidget {
   final BorderRadius pickerAreaBorderRadius;
 
   @override
-  _HueRingPickerState createState() => _HueRingPickerState();
+  HueRingPickerState createState() => HueRingPickerState();
 }
 
-class _HueRingPickerState extends State<HueRingPicker> {
+class HueRingPickerState extends State<HueRingPicker> {
   HSVColor currentHsvColor = const HSVColor.fromAHSV(0.0, 0.0, 0.0, 0.0);
 
   @override
